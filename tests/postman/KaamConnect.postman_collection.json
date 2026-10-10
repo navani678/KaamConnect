@@ -1,0 +1,363 @@
+{
+  "info": {
+    "name": "KaamConnect AI — API Collection",
+    "_postman_id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "description": "Comprehensive Postman test collection for KaamConnect AI end-to-end APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "System & Meta",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Service is ok', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json.success).to.eql(true);",
+                  "    pm.expect(json.data.status).to.eql('ok');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Professions Meta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meta/professions",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "professions"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ramesh Sharma\",\n  \"email\": \"customer.test@example.com\",\n  \"phone\": \"9876543210\",\n  \"password\": \"Test@1234\",\n  \"role\": \"customer\",\n  \"language\": \"en\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201 || pm.response.code === 200) {",
+                  "    var json = pm.response.json();",
+                  "    pm.environment.set('customerToken', json.data.token);",
+                  "    pm.environment.set('customerId', json.data.user.id || json.data.user._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Register Worker",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Suresh Varma\",\n  \"email\": \"worker.test@example.com\",\n  \"phone\": \"9876500000\",\n  \"password\": \"Test@1234\",\n  \"role\": \"worker\",\n  \"language\": \"te\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201 || pm.response.code === 200) {",
+                  "    var json = pm.response.json();",
+                  "    pm.environment.set('workerToken', json.data.token);",
+                  "    pm.environment.set('workerId', json.data.user.id || json.data.user._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer.test@example.com\",\n  \"password\": \"Test@1234\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User (Me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workers & Discovery",
+      "item": [
+        {
+          "name": "Update Worker Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{workerToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"professions\": [\"electrician\"],\n  \"specializations\": [\"wiring\", \"fans\", \"MCB repair\"],\n  \"bio\": \"Experienced residential electrician with 8 years experience in Warangal.\",\n  \"experienceYears\": 8,\n  \"rateType\": \"daily\",\n  \"rate\": 900,\n  \"serviceRadiusKm\": 20,\n  \"location\": {\n    \"lat\": 17.9689,\n    \"lng\": 79.5941\n  },\n  \"addressText\": \"Hanamkonda Chowrasta\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/workers/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["workers", "me"]
+            }
+          }
+        },
+        {
+          "name": "Browse Workers Nearby",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/workers?profession=electrician&lat=17.9689&lng=79.5941&maxDistanceKm=15",
+              "host": ["{{baseUrl}}"],
+              "path": ["workers"],
+              "query": [
+                { "key": "profession", "value": "electrician" },
+                { "key": "lat", "value": "17.9689" },
+                { "key": "lng", "value": "79.5941" },
+                { "key": "maxDistanceKm", "value": "15" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "Create Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"profession\": \"electrician\",\n  \"title\": \"Install 3 ceiling fans and fix MCB switch\",\n  \"description\": \"Need complete fan wiring and MCB switch replacement in 3 bedrooms.\",\n  \"media\": [],\n  \"location\": {\n    \"lat\": 17.9710,\n    \"lng\": 79.5980\n  },\n  \"addressText\": \"Near Kazipet Railway Station\",\n  \"budgetMin\": 3000,\n  \"budgetMax\": 5000,\n  \"preferredDate\": \"2026-10-18T10:00:00.000Z\",\n  \"preferredTimeSlot\": \"morning\",\n  \"estimatedDuration\": {\n    \"value\": 1,\n    \"unit\": \"days\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobs",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var json = pm.response.json();",
+                  "    pm.environment.set('jobId', json.data.job._id || json.data.job.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get AI Matches for Job",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/{{jobId}}/matches",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobs", "{{jobId}}", "matches"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Create Booking Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobId\": \"{{jobId}}\",\n  \"workerProfileId\": \"{{workerProfileId}}\",\n  \"proposedPrice\": 3500,\n  \"scheduledDate\": \"2026-10-18T10:00:00.000Z\",\n  \"timeSlot\": \"morning\",\n  \"scope\": \"Wiring 3 ceiling fans and testing switchboard\",\n  \"message\": \"Please bring copper wiring if needed.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var json = pm.response.json();",
+                  "    pm.environment.set('bookingId', json.data.booking._id || json.data.booking.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Worker Counter-Offers",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{workerToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 4000,\n  \"message\": \"Materials will require additional effort.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/counter",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "counter"]
+            }
+          }
+        },
+        {
+          "name": "Customer Confirms Counter",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/confirm",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "confirm"]
+            }
+          }
+        },
+        {
+          "name": "Customer Completes Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/{{bookingId}}/complete",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "{{bookingId}}", "complete"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews & Reports",
+      "item": [
+        {
+          "name": "Submit Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"rating\": 5,\n  \"comment\": \"Great punctuality and clean wiring work.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
