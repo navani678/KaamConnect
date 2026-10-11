@@ -464,7 +464,7 @@ All responses follow a standard envelope format:
 
 ---
 
-##  9. Current Limitations & Unfinished Features
+## 9. Current Limitations & Unfinished Features
 
 To provide clear expectations, the following features are currently out of scope or part of future milestones:
 
