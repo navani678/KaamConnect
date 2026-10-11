@@ -1,17 +1,17 @@
-# 🛠️ KaamConnect AI
+# KaamConnect AI
 
 > **Find the Right Worker. Near You. At the Right Price.**  
 > *Hyperlocal, AI-driven discovery and bilateral price negotiation platform for skilled informal blue-collar workers in India.*
 
 ---
 
-## 📌 1. Project Overview & Implemented Features
+##  1. Project Overview & Implemented Features
 
 Across India, over 150 million skilled informal trade workers (electricians, plumbers, masons, carpenters, painters, and more) find daily work by waiting at physical roadside *labour nakas* or paying 20–30% cuts to aggregator monopolies. At the same time, households in Tier-2 and Tier-3 cities struggle with opaque pricing, unverified credentials, and language barriers.
 
 **KaamConnect AI** connects customers directly with local verified artisans through transparent geospatial discovery, algorithmic matching, and bilateral price negotiation.
 
-### ✨ Implemented Features
+###  Implemented Features
 
 - **5-Factor AI Match & Scoring Engine**:
   - Dynamically scores and ranks workers based on 5 weighted dimensions:
@@ -46,7 +46,7 @@ Across India, over 150 million skilled informal trade workers (electricians, plu
 
 ---
 
-## 💻 2. Technologies Used
+##  2. Technologies Used
 
 ### Frontend (`client/`)
 - **React 18 & Vite**: Fast SPA development and build tooling.
@@ -75,7 +75,7 @@ Across India, over 150 million skilled informal trade workers (electricians, plu
 
 ---
 
-## 📂 3. Project Folder Structure
+##  3. Project Folder Structure
 
 ```
 kaamconnect/
@@ -185,7 +185,7 @@ kaamconnect/
 
 ---
 
-## ⚙️ 4. Prerequisites & Installation Steps
+##  4. Prerequisites & Installation Steps
 
 ### Prerequisites
 - **Node.js**: `v20.x` or higher installed ([Download Node.js](https://nodejs.org/)).
@@ -217,7 +217,7 @@ kaamconnect/
 
 ---
 
-## 🍃 5. How to Configure MongoDB Atlas Using a Private `.env` File
+##  5. How to Configure MongoDB Atlas Using a Private `.env` File
 
 Follow these beginner-friendly steps to connect KaamConnect AI to a free MongoDB Atlas cloud database:
 
@@ -267,7 +267,7 @@ Follow these beginner-friendly steps to connect KaamConnect AI to a free MongoDB
 
 ---
 
-## 🔐 6. Required Environment Variables
+##  6. Required Environment Variables
 
 All secrets and settings must be kept in private environment files. Below are the required variables using **placeholder examples only**.
 
@@ -319,7 +319,7 @@ VITE_USE_MOCKS=false
 
 ---
 
-## 🚀 7. How to Run the Frontend and Backend Locally
+##  7. How to Run the Frontend and Backend Locally
 
 ### 1. Seed Demo Data (Recommended)
 Before running the app for the first time with a live MongoDB instance, populate realistic seed data (45 workers across 10 professions, 6 customers, jobs, bookings, and reviews centered in Warangal / Kazipet):
@@ -335,7 +335,7 @@ node src/seed/seed.js
 cd ..
 ```
 
-#### 🔑 Available Demo Accounts Created by Seeder:
+####  Available Demo Accounts Created by Seeder:
 | Role | Email | Password | Description |
 |---|---|---|---|
 | **Demo Customer** | `customer@demo.com` | `Demo@1234` | Has active electrical & plumbing jobs posted in Kazipet |
@@ -395,7 +395,7 @@ npm test
 
 ---
 
-## 📡 8. Implemented API Endpoints
+##  8. Implemented API Endpoints
 
 All responses follow a standard envelope format:
 - **Success (`200/201`)**: `{ "success": true, "data": { ... } }`
@@ -464,7 +464,7 @@ All responses follow a standard envelope format:
 
 ---
 
-## 🚧 9. Current Limitations & Unfinished Features
+##  9. Current Limitations & Unfinished Features
 
 To provide clear expectations, the following features are currently out of scope or part of future milestones:
 
@@ -484,7 +484,7 @@ To provide clear expectations, the following features are currently out of scope
 
 ---
 
-## 📜 License & Acknowledgments
+##  License & Acknowledgments
 
 This project is licensed under the ISC License.  
 Developed with ❤️ by the **KaamConnect AI Team** for the hackathon.
